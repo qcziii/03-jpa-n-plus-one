@@ -35,6 +35,7 @@ public class JpaLabApplication {
             authorRepository.save(lem);
             authorRepository.save(tolkien);
         };
+        // TODO paginacja z fetchowaniem - problem hibernate gdzie trzyma wszystko w pamieci
     }
 }
 

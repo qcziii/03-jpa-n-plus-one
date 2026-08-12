@@ -1,5 +1,6 @@
 package pl.course.jpa;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,8 @@ class AuthorController {
     }
 
     @GetMapping
-    List<AuthorDto> authorsWithNPlusOne() {
-        return authorService.findAuthorsWithNPlusOne();
+    Page<AuthorDto> authorsWithNPlusOne() {
+//        return authorService.findAuthorsWithNPlusOne();
+        return authorService.findAuthorsWithBooks();
     }
 }

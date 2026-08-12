@@ -1,5 +1,7 @@
 package pl.course.jpa;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,12 @@ class AuthorService {
         return authorRepository.findAll().stream()
                 .map(this::toDto)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    Page<AuthorDto> findAuthorsWithBooks(Pageable pageable) {
+       Page<Author> authors = authorRepository.findAllWithBooks(pageable);
+       return authors.map(this::toDto);
     }
 
     private AuthorDto toDto(Author author) {
