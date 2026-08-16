@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 class AuthorService {
@@ -19,21 +20,24 @@ class AuthorService {
 
     @Transactional(readOnly = true)
     Page<AuthorDto> findAuthorsWithNPlusOne(Pageable pageable) {
-//        return authorRepository.findAll(pageable)
-//                .map(this::toDto);
-        Page<Author> aPages= authorRepository.findAuthorsWithBooks(pageable);
-        return aPages.map(author -> new AuthorDto(
-                author.getId(),
-                author.getName(),
-                author.getBooks().stream().map(Book::getTitle).toList()
-        ));
+        return authorRepository.findAll(pageable)
+                .map(this::toDto);
     }
 
-//    private AuthorDto toDto(Author author) {
-//        List<String> bookTitles = author.getBooks().stream()
-//                .map(Book::getTitle)
-//                .sorted(Comparator.naturalOrder())
-//                .toList();
-//        return new AuthorDto(author.getId(), author.getName(), bookTitles);
-//    }
+    private AuthorDto toDto(Author author) {
+        List<String> bookTitles = author.getBooks().stream()
+                .filter(Objects::nonNull)
+                .map(Book::getTitle)
+                .sorted(Comparator.naturalOrder())
+                .toList();
+        return new AuthorDto(author.getId(), author.getName(), bookTitles);
+    }
+
+    List<AuthorDto> findAll() {
+        return authorRepository.findAllBy().stream().map(this::toDto).toList();
+    }
+
+    List<AuthorDto> fetchAllAuthorsWithBooks() {
+        return authorRepository.fetchAuthorsWithBooks().stream().map(this::toDto).toList();
+    }
 }
