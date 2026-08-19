@@ -20,8 +20,18 @@ class AuthorController {
         this.authorService = authorService;
     }
 
-    @GetMapping
-    Page<AuthorDto> authorsWithNPlusOne(@PageableDefault(size=10) Pageable pageable) {
-        return authorService.findAuthorsWithNPlusOne(pageable);
+//    @GetMapping
+//    Page<AuthorDto> authorsWithNPlusOne(@PageableDefault(size=10) Pageable pageable) {
+//        return authorService.findAuthorsWithNPlusOne(pageable);
+//    }
+
+    @GetMapping("/1")
+    List<AuthorDto> authorsWithNPlusOne() {
+        return authorService.findAuthorsWithNPlusOne();
+    }
+
+    @GetMapping("/2")
+    List<AuthorDto> authorsWithBooks() {
+        return authorService.findAuthorsWithBooks();
     }
 }
