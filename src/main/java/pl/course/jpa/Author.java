@@ -20,7 +20,7 @@ class Author {
     private String name;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    @BatchSize(size = 50)
+//    @BatchSize(size = 50)
     private Set<Book> books = new LinkedHashSet<>();
 
     protected Author() {
