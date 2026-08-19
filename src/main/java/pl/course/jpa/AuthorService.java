@@ -1,5 +1,7 @@
 package pl.course.jpa;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +17,13 @@ class AuthorService {
         this.authorRepository = authorRepository;
     }
 
+    Page<AuthorProjection> findAllAuthorsUsingProjection(Pageable pageable) {
+       return authorRepository.findAllAuthorsUsingProjection(pageable);
+    }
+
     @Transactional(readOnly = true)
     List<AuthorDto> findAuthorsWithNPlusOne() {
-        return authorRepository.findAll().stream()
+        return authorRepository.findAllAuthorsWithBookFetching().stream()
                 .map(this::toDto)
                 .toList();
     }
