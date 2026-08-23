@@ -18,17 +18,16 @@ class AuthorService {
     }
 
     @Transactional(readOnly = true)
-    List<AuthorDto> findAuthorsWithNPlusOne() {
-        return authorRepository.findAll().stream()
-                .map(this::toDto)
-                .toList();
+    Page<AuthorDto> findAuthorsWithNPlusOne(Pageable pageable) {
+        Page<Author> authors = authorRepository.findAll(pageable);
+        return authors.map(this::toDto);
     }
 
-    @Transactional(readOnly = true)
-    Page<AuthorDto> findAuthorsWithBooks(Pageable pageable) {
-       Page<Author> authors = authorRepository.findAllWithBooks(pageable);
-       return authors.map(this::toDto);
-    }
+//    @Transactional(readOnly = true)
+//    Page<AuthorDto> findAuthorsWithBooks(Pageable pageable) {
+//       Page<Author> authors = authorRepository.findAllWithBooks(pageable);
+//       return authors.map(this::toDto);
+//    }
 
     private AuthorDto toDto(Author author) {
         List<String> bookTitles = author.getBooks().stream()

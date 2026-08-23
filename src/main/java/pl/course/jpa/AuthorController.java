@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -21,7 +23,11 @@ class AuthorController {
 
     @GetMapping
     Page<AuthorDto> authorsWithNPlusOne(@PageableDefault(page = 0, size = 10) Pageable pageable) {
-//        return authorService.findAuthorsWithNPlusOne();
-        return authorService.findAuthorsWithBooks(pageable);
+        Instant start = Instant.now();
+        Page<AuthorDto> result = authorService.findAuthorsWithNPlusOne(pageable);
+        Instant end = Instant.now();
+        System.out.println("Query took: " + Duration.between(start, end).toMillis() + " ms");
+        return result;
+//        return authorService.findAuthorsWithBooks(pageable);
     }
 }
