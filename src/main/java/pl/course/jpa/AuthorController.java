@@ -1,6 +1,7 @@
 package pl.course.jpa;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +19,8 @@ class AuthorController {
     }
 
     @GetMapping
-    Page<AuthorDto> authorsWithNPlusOne() {
+    Page<AuthorDto> authorsWithNPlusOne(Pageable pageable) {
 //        return authorService.findAuthorsWithNPlusOne();
-        return authorService.findAuthorsWithBooks();
+        return authorService.findAuthorsWithBooks(pageable);
     }
 }
