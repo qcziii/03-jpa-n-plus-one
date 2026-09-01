@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/authors")
@@ -22,9 +21,15 @@ class AuthorController {
     }
 
     @GetMapping
-    Page<AuthorDto> authorsWithNPlusOne(@PageableDefault(size=10) Pageable pageable) {
+    Page<AuthorDto> authorsWithNPlusOne(@PageableDefault(size = 10, sort = "id") Pageable pageable) {
         return authorService.findAuthorsWithNPlusOne(pageable);
     }
+
+    @GetMapping("/page/by-ids")
+    Page<AuthorDto> authorsPageByIds(@PageableDefault(size = 10, sort = "id") Pageable pageable) {
+        return authorService.findAuthorsPageByIds(pageable);
+    }
+
     @GetMapping("/all")
     ResponseEntity<List<AuthorDto>> findAll() {
         return ResponseEntity.ok(authorService.findAll());
