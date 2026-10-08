@@ -12,7 +12,7 @@ import java.util.List;
 interface AuthorRepository extends JpaRepository<Author, Long> {
 
     @Query(
-            value = "SELECT a.id FROM Author a",
+            value = "SELECT a.id FROM Author a ORDER BY a.id",
             countQuery = "SELECT COUNT(a) FROM Author a"
     )
     Page<Long> findAuthorIds(Pageable pageable);
